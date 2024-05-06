@@ -1,5 +1,5 @@
 import { describe, test, it, expect } from "vitest";
-import { fizzBuzz, max } from "../intro";
+import { calculateAverage, fizzBuzz, max } from "../intro";
 
 //to create test
 // Arrange
@@ -35,5 +35,20 @@ describe("fizzbuzz", () => {
   });
   it("should return arg as str if not div by 3 or 5", () => {
     expect(fizzBuzz(2)).toBe("2");
+  });
+});
+//Suite 3
+describe("calcAverage", () => {
+  it("should return NaN if empty[]", () => {
+    expect(calculateAverage([])).toBe(NaN);
+  });
+  it("should return avg if has one element", () => {
+    expect(calculateAverage([1])).toBe(1);
+  });
+  it("should return avg if has two element", () => {
+    expect(calculateAverage([1, 2])).toBe(1.5);
+  });
+  it("should return avg if has three element", () => {
+    expect(calculateAverage([1, 2, 3])).toBe(2);
   });
 });
