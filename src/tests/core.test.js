@@ -1,5 +1,5 @@
 import { it, expect, describe, expectTypeOf } from "vitest";
-import { calculateDiscount, getCoupons } from "../core";
+import { calculateDiscount, getCoupons, validateUserInput } from "../core";
 
 describe("getCoupons", () => {
   //   assertions 1
@@ -47,5 +47,30 @@ describe("calculateDiscount", () => {
   });
   it("should handle invalid discount code", () => {
     expect(calculateDiscount(10, "WRONG CODE")).toBe(10); //regex check invalid case insensitive
+  });
+});
+
+describe("validateUserInput", () => {
+  it("should return success", () => {
+    expect(validateUserInput("Deb", 28)).toMatch(/success/i);
+  });
+  it("should return an Error if username not a str", () => {
+    expect(validateUserInput(1, 28)).toMatch(/invalid/i);
+  });
+  it("should return an Error if username less 3 charac", () => {
+    expect(validateUserInput("D", 28)).toMatch(/invalid/i);
+  });
+  it("should return an Error if age not a number", () => {
+    expect(validateUserInput("DDam", "28")).toMatch(/invalid/i);
+  });
+  it("should return an Error if age is below 18", () => {
+    expect(validateUserInput("DDam", 16)).toMatch(/invalid/i);
+  });
+  it("should return an Error if age is greater 100", () => {
+    expect(validateUserInput("DDam", 1001)).toMatch(/invalid/i);
+  });
+  it("should return an Error if usrname/age is ginvalid", () => {
+    expect(validateUserInput("", 0)).toMatch(/invalid username/i);
+    expect(validateUserInput("", 0)).toMatch(/invalid age/i);
   });
 });
