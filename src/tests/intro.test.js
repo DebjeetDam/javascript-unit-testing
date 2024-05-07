@@ -10,7 +10,7 @@ import { calculateAverage, fizzBuzz, max } from "../intro";
 // Assert
 // expect(result).toBe(2);
 
-// Suite 1
+// Suite 1 toBe -> matcher
 describe("max", () => {
   it("should return first arg if it is greater", () => {
     expect(max(2, 1)).toBe(2);
