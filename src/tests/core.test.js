@@ -1,5 +1,5 @@
 import { it, expect, describe, expectTypeOf } from "vitest";
-import { getCoupons } from "../core";
+import { calculateDiscount, getCoupons } from "../core";
 
 describe("getCoupons", () => {
   //   assertions 1
@@ -26,5 +26,26 @@ describe("getCoupons", () => {
       expect(coupon.discount).toBeGreaterThan(0);
       expect(coupon.discount).toBeLessThan(1);
     });
+  });
+});
+//new test suite
+describe("calculateDiscount", () => {
+  // positive test
+  it("should return discounted price if given valid code", () => {
+    expect(calculateDiscount(10, "SAVE10")).toBe(9); //10% discount
+    expect(calculateDiscount(10, "SAVE20")).toBe(8); //20% discount
+  });
+  // negative test (not necessary for TypeScript
+  it("should handle non numeric price", () => {
+    expect(calculateDiscount("10", "SAVE10")).toMatch(/invalid/i); //regex check invalid case insensitive
+  });
+  it("should handle negative price", () => {
+    expect(calculateDiscount(-10, "SAVE10")).toMatch(/invalid/i); //regex check invalid case insensitive
+  });
+  it("should handle non string discount code", () => {
+    expect(calculateDiscount(10, 10)).toMatch(/invalid/i); //regex check invalid case insensitive
+  });
+  it("should handle invalid discount code", () => {
+    expect(calculateDiscount(10, "WRONG CODE")).toBe(10); //regex check invalid case insensitive
   });
 });
