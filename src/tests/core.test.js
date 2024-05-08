@@ -82,18 +82,15 @@ describe("validateUserInput", () => {
   });
 });
 
-describe("isProceInRange", () => {
-  it("should return false when price outside range", () => {
-    expect(isPriceInRange(-10, 0, 100)).toBe(false);
-    expect(isPriceInRange(200, 0, 100)).toBe(false);
-  });
-  it("should return true when price within range", () => {
-    // boundary testing
-    expect(isPriceInRange(0, 0, 100)).toBe(true);
-    expect(isPriceInRange(100, 0, 100)).toBe(true);
-  });
-  it("should return true when price within range", () => {
-    expect(isPriceInRange(50, 0, 100)).toBe(true);
+describe("isPriceInRange", () => {
+  it.each([
+    { scenario: "price < max", price: -10, result: false },
+    { scenario: "price > max", price: 200, result: false },
+    { scenario: "price = min", price: 0, result: true },
+    { scenario: "price = max", price: 100, result: true },
+    { scenario: "min < price < max", price: 50, result: true },
+  ])("should return $result if $scenario", ({ price, result }) => {
+    expect(isPriceInRange(price, 0, 100)).toBe(result);
   });
 });
 
@@ -126,7 +123,6 @@ describe("canDrive", () => {
   it("should return error invalid country code", () => {
     expect(canDrive(20, "FR")).toMatch(/invalid/i);
   });
-
   it.each([
     { age: 15, country: "US", result: false },
     { age: 16, country: "US", result: true },
