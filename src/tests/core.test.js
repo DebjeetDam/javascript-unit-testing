@@ -1,4 +1,4 @@
-import { it, expect, describe, expectTypeOf } from "vitest";
+import { it, expect, describe, expectTypeOf, beforeEach } from "vitest";
 import {
   calculateDiscount,
   canDrive,
@@ -7,6 +7,7 @@ import {
   isPriceInRange,
   isValidUsername,
   validateUserInput,
+  Stack,
 } from "../core";
 
 describe("getCoupons", () => {
@@ -144,5 +145,67 @@ describe("fetchData", () => {
       expect(error).toHaveProperty("reason");
       expect(error.reason).toMatch(/fail/i);
     }
+  });
+});
+
+// testing a Stack
+describe("Stack", () => {
+  let stack;
+  beforeEach(() => {
+    stack = new Stack();
+  });
+  it("push add item to the stack", () => {
+    stack.push(1);
+    expect(stack.size()).toBe(1);
+  });
+  it("pop should remove and return the top item from stack", () => {
+    stack.push(1);
+    stack.push(2);
+
+    const poppedItem = stack.pop();
+    expect(poppedItem).toBe(2);
+    expect(stack.size()).toBe(1);
+  });
+  it("pop should throw error if stack is empty", () => {
+    expect(() => stack.pop()).toThrow(/empty/i);
+  });
+  it("peak should return top item from stack without removing", () => {
+    //Arrange
+    stack.push(1);
+    stack.push(2);
+    //Act
+    const peekedItem = stack.peek();
+    //Assert
+    expect(peekedItem).toBe(2);
+    expect(stack.size(2));
+  });
+  it("peek should throw err if stack is empty", () => {
+    expect(() => stack.peek().toThrow(/empty/i));
+  });
+
+  it("isEmpty should return true if stack is empty", () => {
+    expect(stack.isEmpty()).toBe(true);
+  });
+
+  it("isEmpty should return false if stack is not empty", () => {
+    stack.push(1);
+
+    expect(stack.isEmpty()).toBe(false);
+  });
+
+  it("size should return number of items in stack", () => {
+    stack.push(1);
+    stack.push(2);
+
+    expect(stack.size()).toBe(2);
+  });
+
+  it("clear should remove all items from stack", () => {
+    stack.push(1);
+    stack.push(2);
+
+    stack.clear();
+
+    expect(stack.size()).toBe(0);
   });
 });
